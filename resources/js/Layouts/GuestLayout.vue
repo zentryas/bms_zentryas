@@ -29,7 +29,7 @@
                                 <NavLink 
                                     :href="route('welcome')"
                                     :active="route().current('welcome')">
-                                    Halaman Utama
+                                    Total Transaksi
                                 </NavLink>
                                 <NavLink
                                     :href="route('login')"

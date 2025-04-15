@@ -19,9 +19,31 @@ defineProps({
 });
 
 onMounted(() => {
-    $('#transaksi-table').DataTable({
-      scrollX:true
-    });
+  $.fn.dataTable.ext.search.push(function(settings, data) {
+    const min = document.getElementById('min-date').value;
+    const max = document.getElementById('max-date').value;
+    const createdAt = data[2]; // Column index for created_at
+
+    if (!min && !max) return true;
+
+    const date = new Date(createdAt);
+    const minDate = min ? new Date(min) : null;
+    const maxDate = max ? new Date(max) : null;
+
+    if ((minDate === null || date >= minDate) &&
+        (maxDate === null || date <= maxDate)) {
+      return true;
+    }
+    return false;
+  });
+
+  const table = $('#transaksi-table').DataTable({
+    scrollX: true,
+  });
+
+  $('#min-date, #max-date').on('change', function () {
+    table.draw();
+  });
 });
 
 function formatNumber(value) {
@@ -51,12 +73,25 @@ function formatNumber(value) {
                             Create New Transaksi
                           </button>
                         </Link>                       
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="relative overflow-x-auto sm:rounded-lg">
+                          <div class="mb-4 flex justify-center">
+                              <div class="flex gap-4">
+                                <div>
+                                  <label for="min-date" class="block text-sm font-medium text-gray-700 text-center">Start Date</label>
+                                  <input type="date" id="min-date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-center" />
+                                </div>
+                                <div>
+                                  <label for="max-date" class="block text-sm font-medium text-gray-700 text-center">End Date</label>
+                                  <input type="date" id="max-date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-center" />
+                                </div>
+                              </div>
+                            </div>
                             <table id="transaksi-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 nowrap">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <thead>
                                     <tr>
                                         <th scope="col" class="px-6 py-3">No.</th>
                                         <th scope="col" class="px-6 py-3">Kode Transaksi</th>
+                                        <th scope="col" class="px-6 py-3">Tanggal</th>
                                         <th scope="col" class="px-6 py-3">Nama Penjual</th>
                                         <th scope="col" class="px-6 py-3">Nama Pembeli</th>
                                         <th scope="col" class="px-6 py-3">Harga</th>
@@ -64,11 +99,12 @@ function formatNumber(value) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(row, index) in transaksi" :key="row.id" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <tr v-for="(row, index) in transaksi" :key="row.id">
                                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ index + 1 }}.
                                       </th>
                                       <td class="px-6 py-4">{{ row.kode_transaksi }}</td>
+                                      <td class="px-6 py-4">{{ new Date(row.created_at).toISOString().split('T')[0] }}</td>
                                       <td class="px-6 py-4">{{ row.nama_penjual }}</td>
                                       <td class="px-6 py-4">{{ row.nama_pembeli }}</td>
                                       <td class="px-6 py-4">Rp. {{ formatNumber(row.harga) }}</td>

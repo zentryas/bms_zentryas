@@ -2,17 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('welcome');
 
-// Route::get('/', function () {
-//     return redirect()->route('dashboard');
-// });
+Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
 Route::resource('transaksi', TransaksiController::class);
 Route::post('transaksi-update/{id}', [TransaksiController::class, 'transaksi_update'])->name('transaksi.update');

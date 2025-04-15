@@ -18,7 +18,6 @@
     <li>Buat Menu RUD tabel transaksi.
         <ul>
             <li>Search Data transaksi dengan filter : tanggal, nama transaksi</li>
-            <li>Search Data transaksi dengan filter : tanggal, nama transaksi</li>
         </ul>
     </li>
 </ol>

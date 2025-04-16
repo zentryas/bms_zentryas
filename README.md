@@ -25,6 +25,13 @@
 ## How to running program
 
 <ol>
-    <li>Test</li>
+    <li>Download file atau dari github https://github.com/zentryas/bms_zentryas.git</li>
+    <li>Running in terminal php artisan:key generate</li>
+    <li>Running composer install</li>
+    <li>npm install && npm run dev</li>
+    <li>php artisan migrate</li>
+    <li>Running in terminal php artisan:key generate</li>
+    <li>hp artisan migrate:fresh --seed</li>
+    <li>email : superadmin@gmail.com, pass : password</li>
 </ol>
 

@@ -10,8 +10,10 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
-Route::resource('transaksi', TransaksiController::class);
-Route::post('transaksi-update/{id}', [TransaksiController::class, 'transaksi_update'])->name('transaksi.update');
+Route::middleware('auth')->group(function () {
+    Route::resource('transaksi', TransaksiController::class);
+    Route::post('transaksi-update/{id}', [TransaksiController::class, 'transaksi_update'])->name('transaksi.update');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -20,10 +20,10 @@ class createRolesPermissionSeeder extends Seeder
 
         // Create permissions
         $permissions = [
-            'create transaksi',
-            'read transaksi',
-            'update transaksi',
-            'delete transaksi',
+            'transaksi-create',
+            'transaksi-view',
+            'transaksi-update',
+            'transaksi-delete',
         ];
 
         foreach ($permissions as $permission) {
